@@ -1,0 +1,19 @@
+{
+  "name": "dbweb",
+  "version": "1.0.0",
+  "description": "Website for Database Class",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bosco2327/Database-Website.git"
+  },
+  "author": "Bayli Boston and Daniel Johnson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bosco2327/Database-Website/issues"
+  },
+  "homepage": "https://github.com/Bosco2327/Database-Website#readme"
+}
