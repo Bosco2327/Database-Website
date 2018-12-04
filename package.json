@@ -11,9 +11,13 @@
     "url": "git+https://github.com/Bosco2327/Database-Website.git"
   },
   "author": "Bayli Boston and Daniel Johnson",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Bosco2327/Database-Website/issues"
   },
-  "homepage": "https://github.com/Bosco2327/Database-Website#readme"
+  "homepage": "https://github.com/Bosco2327/Database-Website#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  }
 }
