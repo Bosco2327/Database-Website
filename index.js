@@ -14,6 +14,10 @@ app.get('/', function(req,res) {
   res.sendFile(__dirname + '/html/home.html')
 })
 
+app.get('/login', function(req, res) {
+  res.sendFile(__dirname + '/html/login.html')
+})
+
 
 
 

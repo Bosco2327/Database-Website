@@ -6,6 +6,7 @@ header {
   line-height: 4vw;
   font-family: sans-serif;
   box-shadow: 0 .3vw .9vw rgba(0, 0, 0, .5);
+  margin-bottom: 1vw;
 }
 
 h1 {
@@ -14,21 +15,24 @@ h1 {
   text-align: center;
   font-size: 2vw;
   border-width: .3vw;
+  color: #333;
+  text-shadow: .1vw .1vw 0 #777;
+  background-clip: text;
 }
 
 
-.headerLeft {
+.header-left {
   flex: 1;
   order: 0;
   list-style: none;
 }
 
-.headerCenter {
+.header-center {
   flex: 1.2;
   order: 1;
 }
 
-.headerRight {
+.header-right {
   order: 2;
 }
 

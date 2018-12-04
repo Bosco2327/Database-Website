@@ -1,0 +1,19 @@
+.bg {
+  background-image: url('/img/prison2.jpg');
+}
+
+input[type="text"], input[type="password"] {
+  margin: auto;
+  margin-bottom: 2vh;
+  display: block;
+}
+
+.login-box {
+  background-color: rgba(139, 135, 135, .8);
+  margin: auto;
+  margin-top: 5%;
+  width: 25%;
+  padding: 3vw 4vw;
+  text-align: center;
+  box-shadow: 0 0 2vw rgba(0, 0, 0, 0.6);
+}
