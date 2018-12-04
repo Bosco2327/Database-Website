@@ -7,6 +7,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 
 app.use('/css', express.static('css'))
+app.use('/img', express.static('img'))
 
 
 app.get('/', function(req,res) {
