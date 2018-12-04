@@ -1,0 +1,20 @@
+* {
+  box-sizing: border-box;
+}
+
+
+.button {
+  text-decoration: none;
+  color: white;
+  text-align: center;
+  background-color: #072DD7;
+  padding: 1vw;
+  border: solid black;
+  border-width: .1vw;
+  font-size: 1.3vw;
+}
+
+.button:focus,
+.button:hover {
+  background-color: #051666;
+}
