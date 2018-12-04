@@ -1,4 +1,3 @@
-body {
-  background-color: red;
-  text-align: center;
+.bg {
+  background-image: url('/img/prison.jpg');
 }

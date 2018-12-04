@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+}
+
+.bg {
+  z-index: -1000000;
+  display: block;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  overflow: auto;
+  position: fixed;
+  top: 8vw;
+  left: 0px;
+  filter: blur(5px) brightness(70%);
+}
+
+.button {
+  text-decoration: none;
+  color: white;
+  text-align: center;
+  background-color: #072DD7;
+  padding: 1vw;
+  border: solid black;
+  border-width: .1vw;
+  font-size: 1.3vw;
+}
+
+.button:focus,
+.button:hover {
+  background-color: #051666;
+}
+
+
+input[type="text"], input[type="password"] {
+  text-align: center;
+  padding: .5vw;
+}
