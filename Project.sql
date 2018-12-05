@@ -4,15 +4,22 @@ BEGIN TRANSACTION;
 
 CREATE TABLE Inmate(
   name varchar(80) NOT NULL,
-  sentence_length int unsigned NOT NULL,
-  gender varchar(1) NOT NULL,
-  prison_id int unsigned NOT NULL,
+  sentence_length int unsigned NOT NULL CHECK (sentence_length > 0),
+  gender varchar(1) NOT NULL CHECK (gender == "M" or gender == "F"),
+  prison_id int unsigned NOT NULL CHECK (prison_id > 0),
   bail int unsigned,
   death_row_eligible BOOLEAN NOT NULL,
   parole_eligibility BOOLEAN NOT NULL,
+
+  /*Time is in 24hr clock so 1800 == 6 PM and 630 == 6:30 AM*/
+
+  wake_up int unsigned NOT NULL,
+  brunch_time int unsigned NOT NULL,
   free_time int unsigned,
+  visit int unsigned,
   yard_time int unsigned,
-  sleep_time int unsigned,
+  dinner_time int unsigned NOT NULL,
+  sleep_time int unsigned NOT NULL,
   CONSTRAINT keys
     PRIMARY KEY(prison_id)
 );
@@ -22,14 +29,6 @@ CREATE TABLE Crimes_Committed(
   prison_id int unsigned NOT NULL,
   CONSTRAINT keys
     PRIMARY KEY(prison_id, crime)
-    FOREIGN KEY(prison_id) REFERENCES Inmate(prison_id)
-);
-
-CREATE TABLE Inmate_Mealtime(
-  prison_id int unsigned NOT NULL,
-  meal_time int unsigned NOT NULL,
-  CONSTRAINT keys
-    PRIMARY KEY(prison_id, meal_time)
     FOREIGN KEY(prison_id) REFERENCES Inmate(prison_id)
 );
 
@@ -138,7 +137,7 @@ CREATE TABLE Guard_Shift(
 );
 
 
-INSERT INTO Warden VALUES("Wilson Fisk", 01251996, 275000, "passwordlol");
+INSERT INTO Warden VALUES("Wilson Fisk", 01251996, 275000, "password");
 
 INSERT INTO Warden_Phone VALUES("Wilson Fisk", 1111973000);
 
@@ -234,11 +233,13 @@ INSERT INTO Cell VALUES(2, 2, "B");
 INSERT INTO Cell VALUES(2, 3, "B");
 INSERT INTO Cell VALUES(2, 4, "B");
 INSERT INTO Cell VALUES(2, 5, "B");
+INSERT INTO Cell VALUES(2, 6, "B");
 INSERT INTO Cell VALUES(2, 1, "A");
 INSERT INTO Cell VALUES(2, 2, "A");
 INSERT INTO Cell VALUES(2, 3, "A");
 INSERT INTO Cell VALUES(2, 4, "A");
 INSERT INTO Cell VALUES(2, 5, "A");
+INSERT INTO Cell VALUES(2, 6, "A");
 
 INSERT INTO Cell_Block VALUES(1, "C");
 INSERT INTO Cell_Block VALUES(2, "C");
@@ -250,11 +251,13 @@ INSERT INTO Cell_Block VALUES(2, "B");
 INSERT INTO Cell_Block VALUES(3, "B");
 INSERT INTO Cell_Block VALUES(4, "B");
 INSERT INTO Cell_Block VALUES(5, "B");
+INSERT INTO Cell_Block VALUES(6, "B");
 INSERT INTO Cell_Block VALUES(1, "A");
 INSERT INTO Cell_Block VALUES(2, "A");
 INSERT INTO Cell_Block VALUES(3, "A");
 INSERT INTO Cell_Block VALUES(4, "A");
 INSERT INTO Cell_Block VALUES(5, "A");
+INSERT INTO Cell_Block VALUES(6, "A");
 
 INSERT INTO Crimes_Committed VALUES("Framed", 77423);
 INSERT INTO Crimes_Committed VALUES("Murder", 124);
@@ -289,31 +292,6 @@ INSERT INTO Crimes_Committed VALUES("Embezzlement", 8766);
 INSERT INTO Crimes_Committed VALUES("Harassment", 89144);
 INSERT INTO Crimes_Committed VALUES("Insurance Fraud", 87789015);
 
-INSERT INTO Inmate VALUES("Frankie Leonard", 42, "M", 77423, NULL, 0, 1, 1230, 1300, 2000);
-INSERT INTO Inmate VALUES("Damon Garner", 2, "M", 124, 195, 0, 1, 1230, 1300, 2000);
-INSERT INTO Inmate VALUES("Manuel Hoffman", 6, "M", 125231, NULL, 0, 1, 1230, 1300, 2000);
-INSERT INTO Inmate VALUES("Vernon Jordan", 23, "M", 1345431, 100000, 0, 0, 1230, 1300, 2000);
-INSERT INTO Inmate VALUES("Jose James", 14, "M", 1235156, 90000, 0, 0, 1230, 1300, 2000);
-INSERT INTO Inmate VALUES("Russell Barnes", 2, "M", 985, 150, 0, 1, 1230, 1300, 2000);
-INSERT INTO Inmate VALUES("Levi Chapman", 66, "M", 904921, NULL, 0, 0, 1230, 1300, 2000);
-INSERT INTO Inmate VALUES("Alejandro Fox", 1, "M", 01857, 150, 0, 0, 1230, 1300, 2000);
-INSERT INTO Inmate VALUES("Austin Strickland", 12, "M", 65615, 450, 0, 1, 1230, 1300, 2000);
-INSERT INTO Inmate VALUES("Henry Caldwell", 85, "M", 0180111, NULL, 1, 0, 1230, NULL, 2000);
-INSERT INTO Inmate VALUES("Kirk Henry", 54, "M", 8567412, NULL, 0, 0, 1300, 1400, 2000);
-INSERT INTO Inmate VALUES("Taylor Berry", 16, "M", 010945, NULL, 0, 1, 1300, 1400, 2000);
-INSERT INTO Inmate VALUES("George Carr", 17, "M", 74276, 1400, 0, 1, 1300, 1400, 2000);
-INSERT INTO Inmate VALUES("Carl Phillips", 54, "M", 72568751, 500000, 0, 0, 1300, 1400, 2000);
-INSERT INTO Inmate VALUES("Van Diaz", 12, "M", 089515, 1500, 0, 1, 1300, 1400, 2000);
-INSERT INTO Inmate VALUES("Angelo Bailey", 6, "M", 915780, 1000, 0, 0, 1300, 1400, 2000);
-INSERT INTO Inmate VALUES("Darren Miller", 54, "M", 957895, 5600, 0, 1, 1300, 1400, 2000);
-INSERT INTO Inmate VALUES("Mathew Murdock", 352, "M", 90905810, NULL, 1, 0, 1300, NULL, 2000);
-INSERT INTO Inmate VALUES("Homer Gray", 4, "M", 511980, 500, 0, 0, 1300, 1400, 2000);
-INSERT INTO Inmate VALUES("Jason Castro", 44, "M", 00998977, 25000, 0, 1, 1400, 1500, 2000);
-INSERT INTO Inmate VALUES("Greg Wheeler", 98, "M", 65667180, NULL, 1, 0, 1400, NULL, 2000);
-INSERT INTO Inmate VALUES("Ricky Parsons", 83, "M", 0134, NULL, 1, 0, 1400, NULL, 2000);
-INSERT INTO Inmate VALUES("Elmer Hayes", 75, "M", 8766, NULL, 1, 0, 1400, NULL, 2000);
-INSERT INTO Inmate VALUES("Abraham Griffith", 1, "M", 89144, NULL, 0, 0, 1400, 1500, 2000);
-INSERT INTO Inmate VALUES("Marty Fernandez", 14, "M", 87789015, 2500, 0, 1, 1400, 1500, 2000);
 
 INSERT INTO Lives VALUES(1, 8766, "C");
 INSERT INTO Lives VALUES(2, 0134, "C");
@@ -341,53 +319,31 @@ INSERT INTO Lives VALUES(4, 1235156, "A");
 INSERT INTO Lives VALUES(5, 125231, "A");
 INSERT INTO Lives VALUES(5, 124, "A");
 
-INSERT INTO Inmate_Mealtime VALUES(87789015, 1130);
-INSERT INTO Inmate_Mealtime VALUES(87789015, 1800);
-INSERT INTO Inmate_Mealtime VALUES(1345431, 1130);
-INSERT INTO Inmate_Mealtime VALUES(1345431, 1800);
-INSERT INTO Inmate_Mealtime VALUES(74276, 1130);
-INSERT INTO Inmate_Mealtime VALUES(74276, 1800);
-INSERT INTO Inmate_Mealtime VALUES(010945, 1130);
-INSERT INTO Inmate_Mealtime VALUES(010945, 1800);
-INSERT INTO Inmate_Mealtime VALUES(00998977, 1130);
-INSERT INTO Inmate_Mealtime VALUES(00998977, 1800);
-INSERT INTO Inmate_Mealtime VALUES(957895, 1130);
-INSERT INTO Inmate_Mealtime VALUES(957895, 1800);
-INSERT INTO Inmate_Mealtime VALUES(72568751, 1130);
-INSERT INTO Inmate_Mealtime VALUES(72568751, 1800);
-INSERT INTO Inmate_Mealtime VALUES(8567412, 1130);
-INSERT INTO Inmate_Mealtime VALUES(8567412, 1800);
-INSERT INTO Inmate_Mealtime VALUES(904921, 1130);
-INSERT INTO Inmate_Mealtime VALUES(904921, 1800);
-INSERT INTO Inmate_Mealtime VALUES(77423, 1130);
-INSERT INTO Inmate_Mealtime VALUES(77423, 1800);
-INSERT INTO Inmate_Mealtime VALUES(0180111, 1100);
-INSERT INTO Inmate_Mealtime VALUES(0180111, 1700);
-INSERT INTO Inmate_Mealtime VALUES(90905810, 1100);
-INSERT INTO Inmate_Mealtime VALUES(90905810, 1700);
-INSERT INTO Inmate_Mealtime VALUES(65667180, 1100);
-INSERT INTO Inmate_Mealtime VALUES(65667180, 1700);
-INSERT INTO Inmate_Mealtime VALUES(0134, 1100);
-INSERT INTO Inmate_Mealtime VALUES(0134, 1700);
-INSERT INTO Inmate_Mealtime VALUES(8766, 1100);
-INSERT INTO Inmate_Mealtime VALUES(8766, 1700);
-INSERT INTO Inmate_Mealtime VALUES(89144, 1200);
-INSERT INTO Inmate_Mealtime VALUES(89144, 1845);
-INSERT INTO Inmate_Mealtime VALUES(511980, 1200);
-INSERT INTO Inmate_Mealtime VALUES(511980, 1845);
-INSERT INTO Inmate_Mealtime VALUES(915780, 1200);
-INSERT INTO Inmate_Mealtime VALUES(915780, 1845);
-INSERT INTO Inmate_Mealtime VALUES(089515, 1200);
-INSERT INTO Inmate_Mealtime VALUES(089515, 1845);
-INSERT INTO Inmate_Mealtime VALUES(65615, 1200);
-INSERT INTO Inmate_Mealtime VALUES(65615, 1845);
-INSERT INTO Inmate_Mealtime VALUES(01857, 1200);
-INSERT INTO Inmate_Mealtime VALUES(01857, 1845);
-INSERT INTO Inmate_Mealtime VALUES(985, 1200);
-INSERT INTO Inmate_Mealtime VALUES(985, 1845);
-INSERT INTO Inmate_Mealtime VALUES(1235156, 1200);
-INSERT INTO Inmate_Mealtime VALUES(1235156, 1845);
-INSERT INTO Inmate_Mealtime VALUES(125231, 1200);
-INSERT INTO Inmate_Mealtime VALUES(125231, 1845);
-INSERT INTO Inmate_Mealtime VALUES(124, 1200);
-INSERT INTO Inmate_Mealtime VALUES(124, 184);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Frankie Leonard", 42, "M", 77423, NULL, 0, 1, 630, 1130, 1230, 1300, 1800, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Damon Garner", 2, "M", 124, 195, 0, 1, 730, 1200, 1230, 1300, 1845, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Manuel Hoffman", 6, "M", 125231, NULL, 0, 1, 730, 1200, 1230, 1300, 1845, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Vernon Jordan", 23, "M", 1345431, 100000, 0, 0, 700, 1130, 1230, 1300, 1800, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Jose James", 14, "M", 1235156, 90000, 0, 0, 730, 1200, 1230, 1300, 1845, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Russell Barnes", 2, "M", 985, 150, 0, 1, 730, 1200, 1230, 1300, 1845, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Levi Chapman", 66, "M", 904921, NULL, 0, 0, 630, 1130, 1230, 1300, 1800, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Alejandro Fox", 1, "M", 01857, 150, 0, 0, 730, 1200, 1230, 1300, 1845, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Austin Strickland", 12, "M", 65615, 450, 0, 1, 730, 1200, 1230, 1300, 1845, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Henry Caldwell", 85, "M", 0180111, NULL, 1, 0, 630, 1100, 1230, NULL, 1700, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Kirk Henry", 54, "M", 8567412, NULL, 0, 0, 630, 1130, 1300, 1400, 1800, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Taylor Berry", 16, "M", 010945, NULL, 0, 1, 700, 1130, 1300, 1400, 1800, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("George Carr", 17, "M", 74276, 1400, 0, 1, 700, 1130, 1300, 1400, 1800, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Carl Phillips", 54, "M", 72568751, 500000, 0, 0, 630, 1130, 1300, 1400, 1800, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Van Diaz", 12, "M", 089515, 1500, 0, 1, 730, 1200, 1300, 1400, 1845, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Angelo Bailey", 6, "M", 915780, 1000, 0, 0, 730, 1200, 1300, 1400, 1845, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Darren Miller", 54, "M", 957895, 5600, 0, 1, 630, 1130, 1300, 1400, 1800, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Mathew Murdock", 352, "M", 90905810, NULL, 1, 0, 630, 1100, 1300, NULL, 1700, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Homer Gray", 4, "M", 511980, 500, 0, 0, 730, 1200, 1300, 1400, 1845, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Jason Castro", 44, "M", 00998977, 25000, 0, 1, 630, 1130, 1400, 1500, 1800, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Greg Wheeler", 98, "M", 65667180, NULL, 1, 0, 630, 1100, 1400, NULL, 1700, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Ricky Parsons", 83, "M", 0134, NULL, 1, 0, 630, 1100, 1400, NULL, 1700, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Elmer Hayes", 75, "M", 8766, NULL, 1, 0, 630, 1100, 1400, NULL, 1700, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Abraham Griffith", 1, "M", 89144, NULL, 0, 0, 730, 1200, 1400, 1500, 1845, 2000);
+INSERT INTO Inmate(name, sentence_length, gender, prison_id, bail, death_row_eligible, parole_eligibility, wake_up, brunch_time, free_time, yard_time, dinner_time, sleep_time) VALUES("Marty Fernandez", 14, "M", 87789015, 2500, 0, 1, 730, 1130, 1400, 1500, 1800, 2000);
+
+COMMIT;
+PRAGMA foreign_keys=on;
