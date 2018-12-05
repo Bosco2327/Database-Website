@@ -1,0 +1,20 @@
+<header>
+  <div class="header-left">
+    <nav>
+      <li>
+        <a href="/">Home</a>
+        <a href="/schedule">Schedule Visit</a>
+      </li>
+    </nav>
+  </div>
+  <div class="header-center">
+    <h1>Prison Database</h1>
+  </div>
+  <div class="header-right">
+    {{#if loggedin}}
+      <a href="/logout" class="button"><i class="fas fa-caret-down"></i> {{username}}</a>
+    {{else}}
+      <a href="/login" class="button"><i class="fas fa-user"></i> Login</a>
+    {{/if}}
+  </div>
+</header>
