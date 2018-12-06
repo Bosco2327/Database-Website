@@ -4,7 +4,6 @@ const {SESSION_KEY} = process.env
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const {exec} = require('child_process')
 const cookieSession = require('cookie-session')
 const eh = require('express-handlebars')
 
@@ -65,10 +64,10 @@ app.get('/login', requireLoggedOut, function(req, res) {
 app.post('/login', requireLoggedOut, function(req, res) {
   let id = req.body.id
   let pass = req.body.password
-  // TODO: Check login info
+  res.render('login', res.renderOptions)
   res.renderOptions.errors.push('Invalid Login')
   res.renderOptions.css.push('login.css')
-  res.render('login', res.renderOptions)
+
 })
 
 app.get('/logout', requireLoggedIn, function(req, res) {
