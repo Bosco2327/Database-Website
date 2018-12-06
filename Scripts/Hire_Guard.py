@@ -1,6 +1,6 @@
 import sqlite3
 import sys
-connection = sqlite3.connect("../Practice.db")
+connection = sqlite3.connect("../Project.db")
 
 cursor = connection.cursor()
 
