@@ -1,11 +1,14 @@
 const {SESSION_KEY} = process.env
 
+const Database = require('better-sqlite3')
+const db = new Database('./Project.db')
 
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const cookieSession = require('cookie-session')
 const eh = require('express-handlebars')
+const login = require('./scripts/login')
 
 app.engine('handlebars', eh({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
@@ -26,10 +29,10 @@ app.use(function setRenderBody(req, res, next) {
   res.renderOptions = {
     css: [],
     errors: [],
-    loggedin: req.session.loggedin
+    loggedin: req.session.loggedin,
   }
   if (req.session.loggedin) {
-    res.renderOptions.userid = req.session.usrid
+    res.renderOptions.usrid = req.session.usrid
     res.renderOptions.username = req.session.username
   }
   return next()
@@ -62,12 +65,25 @@ app.get('/login', requireLoggedOut, function(req, res) {
 })
 
 app.post('/login', requireLoggedOut, function(req, res) {
+  res.renderOptions.css.push('login.css')
   let id = req.body.id
   let pass = req.body.password
-  res.render('login', res.renderOptions)
-  res.renderOptions.errors.push('Invalid Login')
-  res.renderOptions.css.push('login.css')
-
+  try {
+    let userInfo = login(db, id, pass)
+    if (userInfo == null) {
+      res.renderOptions.errors.push('Invalid login information')
+      return res.render('login', res.renderOptions)
+    }
+    console.log('USERINFO', userInfo)
+    req.session.usrid = id
+    req.session.loggedin = true
+    req.session.username = userInfo.employee_name
+    return res.redirect('/')
+  } catch (e) {
+    console.log('EEEEE', e)
+    res.renderOptions.errors.push('Unexpected Error Occurred')
+    return res.render('login', res.renderOptions)
+  }
 })
 
 app.get('/logout', requireLoggedIn, function(req, res) {
@@ -76,7 +92,13 @@ app.get('/logout', requireLoggedIn, function(req, res) {
   res.redirect('/')
 })
 
+app.listen(9000)
 
+process.on('exit', () => db.close())
+process.on('SIGINT', () => db.close())
+process.on('SIGHUP', () => db.close())
+process.on('SIGTERM', () => db.close())
 
-
-app.listen(8200)
+process.on('SIGINT', () => {
+  process.exit()
+});

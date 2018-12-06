@@ -1,4 +1,4 @@
-PRAGMA foreign_keys=on;
+PRAGMA foreign_keys=off;
 
 BEGIN TRANSACTION;
 
@@ -154,6 +154,7 @@ INSERT INTO Warden VALUES("Wilson Fisk", 01251996, 275000, "password");
 
 INSERT INTO Warden_Phone VALUES("Wilson Fisk", 1111973000);
 
+INSERT INTO Employee VALUES("Doug", 123456, "123", 12012008);
 INSERT INTO Employee VALUES("Margie Farmer", 792332, "DfaDsZCO", 12012008);
 INSERT INTO Employee VALUES("Curtis Evans", 030107, "nPu4PPBz", 12012008);
 INSERT INTO Employee VALUES("Angela Quinn", 016094, "HNuhyGY0", 12012008);
@@ -362,4 +363,4 @@ INSERT INTO Lives VALUES(5, 125231, "A");
 INSERT INTO Lives VALUES(5, 124, "A");
 
 COMMIT;
-PRAGMA foreign_keys=off;
+PRAGMA foreign_keys=on;
