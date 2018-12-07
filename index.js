@@ -10,6 +10,7 @@ const cookieSession = require('cookie-session')
 const eh = require('express-handlebars')
 const login = require('./scripts/login')
 const wardenlog = require('./scripts/wardenlog')
+const register = require('./scripts/apply')
 
 app.engine('handlebars', eh({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
@@ -35,6 +36,7 @@ app.use(function setRenderBody(req, res, next) {
     ],
     js: ['/js/master.js'],
     errors: [],
+    messages: [],
     loggedin: req.session.loggedin || false,
     warden: req.session.warden || false
   }
@@ -124,6 +126,29 @@ app.get('/logout', requireLoggedIn, function(req, res) {
   req.session.username = null
   req.session.usrid = null
   res.redirect('/')
+})
+
+app.get('/apply', requireLoggedOut, function(req, res) {
+  res.renderOptions.css.push('apply.css')
+  return res.render('apply', res.renderOptions)
+})
+
+app.post('/apply', requireLoggedOut, function(req, res) {
+  res.renderOptions.js.push('/js/info.js')
+  res.renderOptions.css.push('info.css')
+  let name = req.body.name
+  let ssn = req.body.ssn
+  let age = req.body.age
+  let phone = req.body.phone
+  try {
+    register(db, name, ssn, age, phone)
+    res.renderOptions.messages.push('Successfully Registered')
+    return res.render('info', res.renderOptions)
+  } catch(e) {
+    console.error(e)
+    res.renderOptions.messages.push('Failed to apply')
+    return res.status(400).render('info', res.renderOptions)
+  }
 })
 
 app.listen(5000)

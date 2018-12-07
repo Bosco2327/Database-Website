@@ -5,7 +5,7 @@ BEGIN TRANSACTION;
 CREATE TABLE Applicants(
   name varchar(80) NOT NULL,
   social int unsigned NOT NULL,
-  age int unsigned NOT NULL CHECK(age > 18 AND age < 70),
+  age int unsigned NOT NULL CHECK(age >= 18 AND age < 70),
   phone int unsigned,
   CONSTRAINT keys
     PRIMARY KEY(social)
