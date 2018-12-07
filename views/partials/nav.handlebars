@@ -3,7 +3,9 @@
     <nav>
       <li>
         <a href="/">Home</a>
-        <a href="/apply">Apply</a>
+        {{#unless loggedin}}
+          <a href="/apply">Apply</a>
+        {{/unless}}
       </li>
     </nav>
   </div>
@@ -12,7 +14,26 @@
   </div>
   <div class="header-right">
     {{#if loggedin}}
-      <a href="/logout" class="button"><i class="fas fa-caret-down"></i> {{username}}</a>
+    <div class="dropdown">
+      <button class="button dropdown-toggle" type="button" data-toggle="dropdown">
+        {{username}}
+        <i class="fas fa-caret-down"></i>
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item">
+          Signed in as <strong>{{username}}</strong>
+        </a>
+        <li class="dropdown-divider"></li>
+        <a class="dropdown-item" href="/logout">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
+        </a>
+        <a class="dropdown-item" href="/schedules">
+          <i class="fas fa-calendar-alt"></i>
+          My Schedules
+        </a>
+      </div>
+    </div>
     {{else}}
       <a href="/login" class="button"><i class="fas fa-user"></i> Login</a>
     {{/if}}

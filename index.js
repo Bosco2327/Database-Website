@@ -23,13 +23,18 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 
 app.use('/css', express.static('css'))
+app.use('/js', express.static('js'))
 app.use('/img', express.static('img'))
 
 app.use(function setRenderBody(req, res, next) {
   res.renderOptions = {
-    css: [],
+    css: [
+      './reset.css',
+      './master.css'
+    ],
+    js: ['/js/master.js'],
     errors: [],
-    loggedin: req.session.loggedin,
+    loggedin: req.session.loggedin
   }
   if (req.session.loggedin) {
     res.renderOptions.usrid = req.session.usrid
@@ -92,7 +97,7 @@ app.get('/logout', requireLoggedIn, function(req, res) {
   res.redirect('/')
 })
 
-app.listen(9000)
+app.listen(5000)
 
 process.on('exit', () => db.close())
 process.on('SIGINT', () => db.close())
