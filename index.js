@@ -35,8 +35,8 @@ app.use(function setRenderBody(req, res, next) {
     ],
     js: ['/js/master.js'],
     errors: [],
-    loggedin: req.session.loggedin,
-    warden: req.session.warden
+    loggedin: req.session.loggedin || false,
+    warden: req.session.warden || false
   }
   if (req.session.loggedin) {
     res.renderOptions.usrid = req.session.usrid
@@ -119,7 +119,9 @@ app.post('/login', requireLoggedOut, function(req, res) {
 })
 
 app.get('/logout', requireLoggedIn, function(req, res) {
+  req.session.warden = false
   req.session.loggedin = false
+  req.session.username = null
   req.session.usrid = null
   res.redirect('/')
 })
