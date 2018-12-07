@@ -6,6 +6,9 @@
         {{#unless loggedin}}
           <a href="/apply">Apply</a>
         {{/unless}}
+        {{#if warden}}
+          <a href="/warden">Warden Panel</a>
+        {{/if}}
       </li>
     </nav>
   </div>
@@ -28,10 +31,12 @@
           <i class="fas fa-sign-out-alt"></i>
           Logout
         </a>
-        <a class="dropdown-item" href="/schedules">
-          <i class="fas fa-calendar-alt"></i>
-          My Schedules
-        </a>
+        {{#unless warden}}
+          <a class="dropdown-item" href="/schedules">
+            <i class="fas fa-calendar-alt"></i>
+            My Schedules
+          </a>
+        {{/unless}}
       </div>
     </div>
     {{else}}

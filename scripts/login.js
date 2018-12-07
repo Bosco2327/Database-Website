@@ -5,7 +5,3 @@ module.exports = function(db, id, pass) {
   let info = sql.get(id, pass)
   return info
 }
-
-process.on('beforeExit', function() {
-  db.close()
-})

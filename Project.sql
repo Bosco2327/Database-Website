@@ -84,6 +84,7 @@ CREATE TABLE Warden(
   name varchar(80) NOT NULL,
   start_date int unsigned NOT NULL,
   salary int unsigned,
+  id int unsigned NOT NULL,
   password varchar(80) NOT NULL,
   CONSTRAINT keys
     PRIMARY KEY(name)
@@ -150,7 +151,7 @@ CREATE TABLE Guard_Shift(
 );
 
 
-INSERT INTO Warden VALUES("Wilson Fisk", 01251996, 275000, "password");
+INSERT INTO Warden VALUES("Wilson Fisk", 01251996, 275000, 110100100, "password");
 
 INSERT INTO Warden_Phone VALUES("Wilson Fisk", 1111973000);
 

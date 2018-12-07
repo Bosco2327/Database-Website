@@ -9,6 +9,7 @@ const bodyParser = require('body-parser')
 const cookieSession = require('cookie-session')
 const eh = require('express-handlebars')
 const login = require('./scripts/login')
+const wardenlog = require('./scripts/wardenlog')
 
 app.engine('handlebars', eh({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
@@ -34,7 +35,8 @@ app.use(function setRenderBody(req, res, next) {
     ],
     js: ['/js/master.js'],
     errors: [],
-    loggedin: req.session.loggedin
+    loggedin: req.session.loggedin,
+    warden: req.session.warden
   }
   if (req.session.loggedin) {
     res.renderOptions.usrid = req.session.usrid
@@ -59,6 +61,22 @@ function requireLoggedOut(req, res, next) {
   }
 }
 
+function requireWarden(req, res, next) {
+  if (req.session.warden) {
+    return next()
+  } else {
+    return res.redirect('/')
+  }
+}
+
+function requireNotWarden(req, res, next) {
+  if (req.session.warden) {
+    return res.redirect('/')
+  } else {
+    return next()
+  }
+}
+
 app.get('/', function(req,res) {
   res.renderOptions.css.push('home.css')
   res.render('home', res.renderOptions)
@@ -76,13 +94,22 @@ app.post('/login', requireLoggedOut, function(req, res) {
   try {
     let userInfo = login(db, id, pass)
     if (userInfo == null) {
-      res.renderOptions.errors.push('Invalid login information')
-      return res.render('login', res.renderOptions)
+      let wardenInfo = wardenlog(db, id, pass)
+      if (wardenInfo == null) {
+        res.renderOptions.errors.push('Invalid login information')
+        return res.render('login', res.renderOptions)
+      }
+      req.session.usrid = id
+      req.session.loggedin = true
+      req.session.username = wardenInfo.name
+      req.session.warden = true
+      return res.redirect('/') // TODO: Make special page for warden
     }
     console.log('USERINFO', userInfo)
     req.session.usrid = id
     req.session.loggedin = true
     req.session.username = userInfo.employee_name
+    req.session.warden = false
     return res.redirect('/')
   } catch (e) {
     console.log('EEEEE', e)
