@@ -1,37 +1,72 @@
-<div class="applicants">
-  <h2>Applicants</h2>
-  <form method="post">
-    <table class = appTable>
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">SSN</th>
-          <th scope="col">Age</th>
-          <th scope="col">Phone #</th>
-          <th>Select</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each apply}}
-        <tr>
-          <td>{{@index}}</td>
-          <td>{{this.name}}</td>
-          <td>{{this.social}}</td>
-          <td>{{this.age}}</td>
-          <td>{{this.phone}}</td>
-          <td>
-            <input type="radio" name="foo" value="{{this.social}}">
-          </td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-    <input type="number" name="id" placeholder="Enter Employee id">
-    <input type="number" name="startdate" placeholder="Enter Employee Start Date">
-    <div class="tsub">
-      <input type="submit" class="button" value="Hire" formaction="/hire">
-      <input type="submit" class="button" value="Delete" formaction="/removeApp">
+<div class="top">
+  <div class="applicants">
+    <h2>Applicants</h2>
+    <form method="post">
+      <table class = appTable>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">SSN</th>
+            <th scope="col">Age</th>
+            <th scope="col">Phone #</th>
+            <th>Select</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each apply}}
+          <tr>
+            <td>{{@index}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.social}}</td>
+            <td>{{this.age}}</td>
+            <td>{{this.phone}}</td>
+            <td>
+              <input type="radio" name="foo" value="{{this.social}}">
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      <input type="number" name="id" placeholder="Enter Employee id">
+      <input type="number" name="startdate" placeholder="Enter Employee Start Date">
+      <div class="tsub">
+        <input type="submit" class="button" value="Hire" formaction="/hire">
+        <input type="submit" class="button" value="Delete" formaction="/removeApp">
+      </div>
+    </form>
+  </div>
+
+  <div class="employees">
+    <h2>Employees</h2>
+    <div class="scroll">
+      <form method="post">
+        <table class="empTable">
+          <thead>
+            <tr>
+              <td>#</td>
+              <td>Name</td>
+              <td>ID</td>
+              <td>Start Date</td>
+              <td>Select</td>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each emp}}
+            <tr>
+              <td>{{@index}}</td>
+              <td>{{this.employee_name}}</td>
+              <td>{{this.employee_id}}</td>
+              <td>{{this.start_date}}</td>
+              <td>
+                <input type="radio" name="bar" value="{{this.employee_id}}">
+              </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
     </div>
+    <input type="submit" class="button" value="Fire" formaction="/fire">
   </form>
+  </div>
 </div>

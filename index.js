@@ -15,6 +15,8 @@ const getApplicants = require('./scripts/getApplicants')
 const setup = require('./scripts/setup')
 const hire = require('./scripts/hire')
 const removeApp = require('./scripts/removeApp')
+const getEmployees = require('./scripts/getEmployees')
+const fire = require('./scripts/fire')
 
 app.engine('handlebars', eh({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
@@ -159,6 +161,7 @@ app.post('/apply', requireLoggedOut, function(req, res) {
 app.get('/warden', requireWarden, function(req, res) {
   res.renderOptions.css.push('warden.css')
   res.renderOptions.apply = getApplicants(db)
+  res.renderOptions.emp = getEmployees(db)
   return res.render('warden', res.renderOptions)
 })
 
@@ -184,6 +187,14 @@ app.post('/removeApp', requireWarden, function(req, res) {
   let ssn = req.body.foo
   removeApp(db, ssn)
   return res.redirect('/warden')
+})
+
+app.post('/fire', requireWarden, function(req, res) {
+  res.renderOptions.css.push('info.css')
+  res.renderOptions.messages.push("Successfully Fired")
+  let id = req.body.bar
+  fire(db, id)
+  return res.render('info', res.renderOptions)
 })
 
 

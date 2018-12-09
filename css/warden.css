@@ -37,3 +37,29 @@ input[type='submit'] {
   width: 40vw;
   text-align: center;
 }
+
+.top {
+  display: flex;
+  flex-direction: column;
+}
+
+.employees{
+  margin-left: 60vw;
+  margin-top: -22vh;
+  border: 2px solid black;
+  width: 30vw;
+}
+
+.employees h2 {
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.scroll {
+  height: 30vh;
+  overflow: scroll;
+}
+.employees input[type="submit"]{
+  margin-left: 12vw;
+  margin-top: 2vh;
+}
