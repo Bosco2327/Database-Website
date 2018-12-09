@@ -11,6 +11,10 @@ const eh = require('express-handlebars')
 const login = require('./scripts/login')
 const wardenlog = require('./scripts/wardenlog')
 const register = require('./scripts/apply')
+const getApplicants = require('./scripts/getApplicants')
+const setup = require('./scripts/setup')
+const hire = require('./scripts/hire')
+const removeApp = require('./scripts/removeApp')
 
 app.engine('handlebars', eh({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
@@ -150,6 +154,38 @@ app.post('/apply', requireLoggedOut, function(req, res) {
     return res.status(400).render('info', res.renderOptions)
   }
 })
+
+
+app.get('/warden', requireWarden, function(req, res) {
+  res.renderOptions.css.push('warden.css')
+  res.renderOptions.apply = getApplicants(db)
+  return res.render('warden', res.renderOptions)
+})
+
+app.post('/hire', requireWarden, function(req, res) {
+  let ssn = req.body.foo
+  let id = req.body.id
+  let date = req.body.startdate
+  let info = setup(db, ssn)
+  res.renderOptions.css.push('info.css')
+  try {
+    hire(db, info.name, id, date, info.phone)
+    removeApp(db, ssn)
+    res.renderOptions.messages.push("Successfully Hired")
+    return res.render('info', res.renderOptions)
+  } catch (e) {
+    console.log(e)
+    res.renderOptions.messages.push("Error Occured")
+    return res.render('info', res.renderOptions)
+  }
+})
+
+app.post('/removeApp', requireWarden, function(req, res) {
+  let ssn = req.body.foo
+  removeApp(db, ssn)
+  return res.redirect('/warden')
+})
+
 
 app.listen(5000)
 

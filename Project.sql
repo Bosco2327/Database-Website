@@ -110,7 +110,7 @@ CREATE TABLE Warden_Phone(
 CREATE TABLE Employee(
   employee_name varchar(80) NOT NULL,
   employee_id int unsigned NOT NULL,
-  password varchar(80) NOT NULL,
+  password varchar(80) DEFAULT('password') NOT NULL,
   start_date int unsigned NOT NULL,
   CONSTRAINT keys
     PRIMARY KEY(employee_id)

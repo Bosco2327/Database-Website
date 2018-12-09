@@ -1,0 +1,39 @@
+body {
+  background: gray;
+}
+
+
+table {
+  font-size: 1rem;
+  border: solid black;
+  border-width: .2rem;
+  background-color: white;
+  text-align: center;
+  margin: auto;
+}
+
+td, th {
+  border: 1px solid black;
+  padding: 1vh;
+  text-align: center;
+}
+
+input[type='submit'] {
+  margin-right: 1vw;
+}
+
+.tsub {
+  margin: auto;
+  margin-top: 1vh;
+}
+
+.applicants h2 {
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.applicants {
+  border: 2px solid black;
+  width: 40vw;
+  text-align: center;
+}
