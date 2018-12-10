@@ -17,6 +17,7 @@ const hire = require('./scripts/hire')
 const removeApp = require('./scripts/removeApp')
 const getEmployees = require('./scripts/getEmployees')
 const fire = require('./scripts/fire')
+const schedule = require('./scripts/schedule')
 
 app.engine('handlebars', eh({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
@@ -173,7 +174,7 @@ app.post('/hire', requireWarden, function(req, res) {
   let info = setup(db, ssn)
   res.renderOptions.css.push('info.css')
   try {
-    hire(db, info.name, id, date, info.phone, block)
+    hire(db, info.name, id, date, info.phone, block, res.renderOptions.username)
     removeApp(db, ssn)
     res.renderOptions.messages.push("Successfully Hired")
     return res.render('info', res.renderOptions)
@@ -196,6 +197,27 @@ app.post('/fire', requireWarden, function(req, res) {
   let id = req.body.bar
   fire(db, id)
   return res.render('info', res.renderOptions)
+})
+
+app.get('/schedule', requireLoggedOut, function(req, res) {
+  res.renderOptions.css.push('schedule.css')
+  return res.render('schedule', res.renderOptions)
+})
+
+app.post('/schedule', requireLoggedOut, function(req, res) {
+  res.renderOptions.css.push('info.css')
+  let name = req.body.name
+  let id = req.body.id
+  try {
+    schedule(db, name, id)
+    res.renderOptions.messages.push("Visit Scheduled")
+    return res.render('info', res.renderOptions)
+  } catch (e) {
+    console.log(e)
+    res.renderOptions.messages.push("Error Occured")
+    return res.render('info', res.renderOptions)
+    return
+  }
 })
 
 

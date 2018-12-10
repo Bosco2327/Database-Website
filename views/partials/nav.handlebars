@@ -5,6 +5,7 @@
         <a href="/">Home</a>
         {{#unless loggedin}}
           <a href="/apply">Apply</a>
+          <a href="/schedule">Schedule Visit</a>
         {{/unless}}
         {{#if warden}}
           <a href="/warden">Warden Panel</a>
@@ -32,9 +33,9 @@
           Logout
         </a>
         {{#unless warden}}
-          <a class="dropdown-item" href="/schedules">
+          <a class="dropdown-item" href="/block">
             <i class="fas fa-calendar-alt"></i>
-            My Schedules
+            Change Block
           </a>
         {{/unless}}
       </div>

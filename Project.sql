@@ -26,7 +26,8 @@ CREATE TABLE Inmate(
   brunch_time int unsigned NOT NULL,
   free_time int unsigned,
   yard_time int unsigned,
-  visit int unsigned,
+  visitor varchar,
+  visit_time int unsigned DEFAULT(1600),
   dinner_time int unsigned NOT NULL,
   sleep_time int unsigned NOT NULL,
   CONSTRAINT keys
@@ -92,14 +93,14 @@ CREATE TABLE Warden(
     PRIMARY KEY(name)
 );
 
--- CREATE TABLE Manages(
---   warden_name varchar(80) NOT NULL,
---   employee_id int unsigned NOT NULL,
---   CONSTRAINT keys
---     FOREIGN KEY(warden_name) REFERENCES Warden(name),
---     FOREIGN KEY(employee_id) REFERENCES Employee(employee_id)
---     ON DELETE CASCADE
--- );
+CREATE TABLE Manages(
+  warden_name varchar(80) NOT NULL,
+  employee_id int unsigned NOT NULL,
+  CONSTRAINT keys
+    FOREIGN KEY(warden_name) REFERENCES Warden(name),
+    FOREIGN KEY(employee_id) REFERENCES Employee(employee_id)
+    ON DELETE CASCADE
+);
 
 CREATE TABLE Warden_Phone(
   name varchar(80) NOT NULL,
@@ -127,21 +128,21 @@ CREATE TABLE Employee_Phone(
     ON DELETE CASCADE
 );
 
--- CREATE TABLE Guard(
---   employee_id int unsigned NOT NULL,
---   salary int unsigned,
---   CONSTRAINT keys
---     FOREIGN KEY (employee_id) REFERENCES Employee(employee_id)
---     ON DELETE CASCADE
--- );
---
--- CREATE TABLE Cook(
---   employee_id int unsigned NOT NULL,
---   salary int unsigned,
---   CONSTRAINT keys
---     FOREIGN KEY (employee_id) REFERENCES Employee(employee_id)
---     ON DELETE CASCADE
--- );
+CREATE TABLE Guard(
+  employee_id int unsigned NOT NULL,
+  salary int unsigned DEFAULT(2500),
+  CONSTRAINT keys
+    FOREIGN KEY (employee_id) REFERENCES Employee(employee_id)
+    ON DELETE CASCADE
+);
+
+CREATE TABLE Cook(
+  employee_id int unsigned NOT NULL,
+  salary int unsigned,
+  CONSTRAINT keys
+    FOREIGN KEY (employee_id) REFERENCES Employee(employee_id)
+    ON DELETE CASCADE
+);
 
 CREATE TABLE Guard_Shift(
   block_letter varchar(1) NOT NULL,
@@ -207,26 +208,26 @@ INSERT INTO Block VALUES("A", 1);
 INSERT INTO Block VALUES("B", 2);
 INSERT INTO Block VALUES("C", 3);
 
--- INSERT INTO Guard VALUES(319866, 25000);
--- INSERT INTO Guard VALUES(474752, 25000);
--- INSERT INTO Guard VALUES(456687, 25000);
--- INSERT INTO Guard VALUES(002252, 25000);
--- INSERT INTO Guard VALUES(203384, 27000);
--- INSERT INTO Guard VALUES(653828, 27000);
--- INSERT INTO Guard VALUES(909698, 27000);
--- INSERT INTO Guard VALUES(885600, 22000);
--- INSERT INTO Guard VALUES(816800, 30000);
--- INSERT INTO Guard VALUES(479491, 30000);
--- INSERT INTO Guard VALUES(634360, 25000);
--- INSERT INTO Guard VALUES(126432, 28000);
--- INSERT INTO Guard VALUES(994823, 28000);
--- INSERT INTO Guard VALUES(685385, 50000);
--- INSERT INTO Guard VALUES(036256, 60000);
---
---
--- INSERT INTO Cook VALUES(792332, 20000);
--- INSERT INTO Cook VALUES(030107, 20000);
--- INSERT INTO Cook VALUES(016094, 30000);
+INSERT INTO Guard VALUES(319866, 25000);
+INSERT INTO Guard VALUES(474752, 25000);
+INSERT INTO Guard VALUES(456687, 25000);
+INSERT INTO Guard VALUES(002252, 25000);
+INSERT INTO Guard VALUES(203384, 27000);
+INSERT INTO Guard VALUES(653828, 27000);
+INSERT INTO Guard VALUES(909698, 27000);
+INSERT INTO Guard VALUES(885600, 22000);
+INSERT INTO Guard VALUES(816800, 30000);
+INSERT INTO Guard VALUES(479491, 30000);
+INSERT INTO Guard VALUES(634360, 25000);
+INSERT INTO Guard VALUES(126432, 28000);
+INSERT INTO Guard VALUES(994823, 28000);
+INSERT INTO Guard VALUES(685385, 50000);
+INSERT INTO Guard VALUES(036256, 60000);
+
+
+INSERT INTO Cook VALUES(792332, 20000);
+INSERT INTO Cook VALUES(030107, 20000);
+INSERT INTO Cook VALUES(016094, 30000);
 
 INSERT INTO Cell VALUES(1, 1, "C");
 INSERT INTO Cell VALUES(1, 2, "C");
@@ -246,24 +247,24 @@ INSERT INTO Cell VALUES(2, 4, "A");
 INSERT INTO Cell VALUES(2, 5, "A");
 INSERT INTO Cell VALUES(2, 6, "A");
 
--- INSERT INTO Manages VALUES("Wilson Fisk", 792332);
--- INSERT INTO Manages VALUES("Wilson Fisk", 030107);
--- INSERT INTO Manages VALUES("Wilson Fisk", 016094);
--- INSERT INTO Manages VALUES("Wilson Fisk", 319866);
--- INSERT INTO Manages VALUES("Wilson Fisk", 474752);
--- INSERT INTO Manages VALUES("Wilson Fisk", 456687);
--- INSERT INTO Manages VALUES("Wilson Fisk", 002252);
--- INSERT INTO Manages VALUES("Wilson Fisk", 203384);
--- INSERT INTO Manages VALUES("Wilson Fisk", 653828);
--- INSERT INTO Manages VALUES("Wilson Fisk", 909698);
--- INSERT INTO Manages VALUES("Wilson Fisk", 885600);
--- INSERT INTO Manages VALUES("Wilson Fisk", 816800);
--- INSERT INTO Manages VALUES("Wilson Fisk", 479491);
--- INSERT INTO Manages VALUES("Wilson Fisk", 634360);
--- INSERT INTO Manages VALUES("Wilson Fisk", 126432);
--- INSERT INTO Manages VALUES("Wilson Fisk", 994823);
--- INSERT INTO Manages VALUES("Wilson Fisk", 685385);
--- INSERT INTO Manages VALUES("Wilson Fisk", 036256);
+INSERT INTO Manages VALUES("Wilson Fisk", 792332);
+INSERT INTO Manages VALUES("Wilson Fisk", 030107);
+INSERT INTO Manages VALUES("Wilson Fisk", 016094);
+INSERT INTO Manages VALUES("Wilson Fisk", 319866);
+INSERT INTO Manages VALUES("Wilson Fisk", 474752);
+INSERT INTO Manages VALUES("Wilson Fisk", 456687);
+INSERT INTO Manages VALUES("Wilson Fisk", 002252);
+INSERT INTO Manages VALUES("Wilson Fisk", 203384);
+INSERT INTO Manages VALUES("Wilson Fisk", 653828);
+INSERT INTO Manages VALUES("Wilson Fisk", 909698);
+INSERT INTO Manages VALUES("Wilson Fisk", 885600);
+INSERT INTO Manages VALUES("Wilson Fisk", 816800);
+INSERT INTO Manages VALUES("Wilson Fisk", 479491);
+INSERT INTO Manages VALUES("Wilson Fisk", 634360);
+INSERT INTO Manages VALUES("Wilson Fisk", 126432);
+INSERT INTO Manages VALUES("Wilson Fisk", 994823);
+INSERT INTO Manages VALUES("Wilson Fisk", 685385);
+INSERT INTO Manages VALUES("Wilson Fisk", 036256);
 
 INSERT INTO Employee_Phone VALUES(792332, 1111111119);
 INSERT INTO Employee_Phone VALUES(030107, 9476819898);
