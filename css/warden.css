@@ -57,7 +57,7 @@ input[type='submit'] {
 
 .scroll {
   height: 30vh;
-  overflow: scroll;
+  overflow-x: auto;
 }
 .employees input[type="submit"]{
   margin-left: 12vw;

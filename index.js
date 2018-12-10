@@ -169,10 +169,11 @@ app.post('/hire', requireWarden, function(req, res) {
   let ssn = req.body.foo
   let id = req.body.id
   let date = req.body.startdate
+  let block = req.body.blockLetter
   let info = setup(db, ssn)
   res.renderOptions.css.push('info.css')
   try {
-    hire(db, info.name, id, date, info.phone)
+    hire(db, info.name, id, date, info.phone, block)
     removeApp(db, ssn)
     res.renderOptions.messages.push("Successfully Hired")
     return res.render('info', res.renderOptions)
