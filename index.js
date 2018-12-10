@@ -116,14 +116,13 @@ app.post('/login', requireLoggedOut, function(req, res) {
       req.session.warden = true
       return res.redirect('/') // TODO: Make special page for warden
     }
-    console.log('USERINFO', userInfo)
     req.session.usrid = id
     req.session.loggedin = true
     req.session.username = userInfo.employee_name
     req.session.warden = false
     return res.redirect('/')
   } catch (e) {
-    console.log('EEEEE', e)
+    console.log(e)
     res.renderOptions.errors.push('Unexpected Error Occurred')
     return res.render('login', res.renderOptions)
   }
@@ -166,7 +165,6 @@ app.get('/warden', requireWarden, function(req, res) {
   res.renderOptions.apply = getApplicants(db)
   res.renderOptions.emp = getEmployees(db)
   res.renderOptions.budget = budget(db)
-  console.log(res.renderOptions.budget)
   return res.render('warden', res.renderOptions)
 })
 
