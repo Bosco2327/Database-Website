@@ -19,6 +19,7 @@ const getEmployees = require('./scripts/getEmployees')
 const fire = require('./scripts/fire')
 const schedule = require('./scripts/schedule')
 const block = require('./scripts/block')
+const budget = require('./scripts/budget')
 
 app.engine('handlebars', eh({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
@@ -46,7 +47,7 @@ app.use(function setRenderBody(req, res, next) {
     errors: [],
     messages: [],
     loggedin: req.session.loggedin || false,
-    warden: req.session.warden || false
+    warden: req.session.warden || false,
   }
   if (req.session.loggedin) {
     res.renderOptions.usrid = req.session.usrid
@@ -164,6 +165,8 @@ app.get('/warden', requireWarden, function(req, res) {
   res.renderOptions.css.push('warden.css')
   res.renderOptions.apply = getApplicants(db)
   res.renderOptions.emp = getEmployees(db)
+  res.renderOptions.budget = budget(db)
+  console.log(res.renderOptions.budget)
   return res.render('warden', res.renderOptions)
 })
 

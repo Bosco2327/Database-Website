@@ -45,7 +45,7 @@ input[type='submit'] {
 
 .employees{
   margin-left: 60vw;
-  margin-top: -22vh;
+  margin-top: -28vh;
   border: 2px solid black;
   width: 30vw;
 }
@@ -62,4 +62,17 @@ input[type='submit'] {
 .employees input[type="submit"]{
   margin-left: 12vw;
   margin-top: 2vh;
+}
+
+.budget {
+  border: 2px solid black;
+  width: 20vw;
+  margin-left: 20vw;
+  margin-top: 10vh;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.b {
+  color: darkblue;
 }
