@@ -18,6 +18,7 @@ const removeApp = require('./scripts/removeApp')
 const getEmployees = require('./scripts/getEmployees')
 const fire = require('./scripts/fire')
 const schedule = require('./scripts/schedule')
+const block = require('./scripts/block')
 
 app.engine('handlebars', eh({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
@@ -220,6 +221,24 @@ app.post('/schedule', requireLoggedOut, function(req, res) {
   }
 })
 
+app.get('/block', requireLoggedIn, function(req, res) {
+  res.renderOptions.css.push('block.css')
+  return res.render('block', res.renderOptions)
+})
+
+app.post('/block', requireLoggedIn, function(req, res) {
+  let b = req.body.block
+  res.renderOptions.css.push('info.css')
+  try {
+    block(db, res.renderOptions.usrid, b)
+    res.renderOptions.messages.push("Successfully Changed Block")
+    return res.render('info', res.renderOptions)
+  } catch (e) {
+    console.log(e)
+    res.renderOptions.messages.push("Error Occured")
+    return res.render('info', res.renderOptions)
+  }
+})
 
 app.listen(5000)
 
