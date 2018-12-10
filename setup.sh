@@ -5,3 +5,5 @@ npm install express-handlebars
 npm install body-parser
 npm install cookie-session
 npm install better-sqlite3
+
+export SESSION_KEY=test
